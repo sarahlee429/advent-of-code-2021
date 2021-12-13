@@ -1,3 +1,5 @@
+package main.java.solutions;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,12 +13,12 @@ import java.util.stream.Collectors;
 public class Day9 {
     public static final int MAX_HEIGHT = 9;
 
-    public static int numRows = 0;
-    public static int numColumns = 0;
-    public static Set<Coord> lowPoints = new HashSet<>();
-    public static List<Integer> basinSizes = new ArrayList<>();
-    public static List<List<Integer>> heightValues = null;
-    public static Set<Coord> visited = new HashSet<>();
+    private static int numRows = 0;
+    private static int numColumns = 0;
+    private static Set<Tuple> lowPoints = new HashSet<>();
+    private static List<Integer> basinSizes = new ArrayList<>();
+    private static List<List<Integer>> heightValues = null;
+    private static Set<Tuple> visited = new HashSet<>();
 
     private static List<Integer> getHeights(String s) {
         List<Integer> heights = new ArrayList<>();
@@ -52,7 +54,7 @@ public class Day9 {
                 }
                 if (isLow) {
                     riskValue += value + 1;
-                    lowPoints.add(new Coord(i, j));
+                    lowPoints.add(new Tuple(i, j));
                 }
             }
         }
@@ -61,22 +63,21 @@ public class Day9 {
     }
 
     private static int getBasinValues() {
-        for (Coord c : lowPoints) {
-            int tmp = getBasin(c);
-            basinSizes.add(tmp);
+        for (Tuple c : lowPoints) {
+            basinSizes.add(getBasin(c));
         }
         Collections.sort(basinSizes, Collections.reverseOrder());
         return basinSizes.get(0) * basinSizes.get(1) * basinSizes.get(2);
     }
 
-    private static int getBasin(Coord<Integer,Integer> points) {
+    private static int getBasin(Tuple<Integer,Integer> points) {
         visited.clear();
-        int currValue = heightValues.get(points.row).get(points.column);
-        return getBasinHelper(points.row, points.column, currValue);
+        int currValue = heightValues.get(points.first).get(points.second);
+        return getBasinHelper(points.first, points.second, currValue);
     }
 
     private static int getBasinHelper(int row, int column, int adjValue) {
-        Coord<Integer, Integer> currCoord = new Coord(row, column);
+        Tuple<Integer, Integer> currCoord = new Tuple(row, column);
 
         if (visited.contains(currCoord)) return 0;
 

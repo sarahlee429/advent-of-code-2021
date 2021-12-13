@@ -1,3 +1,5 @@
+package main.java.solutions;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,7 +23,7 @@ public class Day10 {
         System.out.println("Median incomplete score : " + incompleteScores.get(incompleteScores.size() / 2));
     }
 
-    public static long checkLine(String line) {
+    private static long checkLine(String line) {
         Stack<Character> parens = new Stack<>();
         for (int i = 0; i < line.length(); i++) {
             Character c = line.charAt(i);
@@ -46,7 +48,7 @@ public class Day10 {
         return score;
     }
 
-    public static Character getMatching(Character open) {
+    private static Character getMatching(Character open) {
         if (open == '(') return ')';
         if (open == '[') return ']';
         if (open == '{') return '}';
@@ -54,7 +56,7 @@ public class Day10 {
         return '0';
     }
 
-    public static long getScore(Character c) {
+    private static long getScore(Character c) {
         if (c == ')') return 1;
         if (c == ']') return 2;
         if (c == '}') return 3;
@@ -62,7 +64,7 @@ public class Day10 {
         return 0;
     }
 
-    public static boolean matches(Character c1, Character c2) {
+    private static boolean matches(Character c1, Character c2) {
         return ((c1 == '{' && c2 == '}') ||
                 (c1 == '[' && c2 == ']') ||
                 (c1 == '(' && c2 == ')') ||
